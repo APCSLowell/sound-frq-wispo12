@@ -34,7 +34,6 @@ public int limitAmplitude(int limit)
     return numChanges;
 }
 
-
   /** Removes all silence from the beginning of this sound.
    *  Silence is represented by a value of 0.
    *  Precondition: samples contains at least one nonzero value
@@ -44,16 +43,19 @@ public void trimSilenceFromBeginning()
 {
     int leadingZeros = 0;
 
-
-    while(samples[leadingZeros] == 0)
+    while (samples[leadingZeros] == 0)
         leadingZeros++;
 
     int[] withoutLeadingZeros = new int[samples.length - leadingZeros];
+    
+    int newIndex = 0;
 
-    for(int i = leadingZeros; i < samples.length; i++)
-      {
-        withoutLeadingZeros[i - leadingZeros] = samples[i];
-      }
+    for (int oldIndex = leadingZeros; oldIndex < samples.length; oldIndex++)
+    {
+        withoutLeadingZeros[newIndex] = samples[oldIndex];
+        newIndex++;
+    }
+
     samples = withoutLeadingZeros;
 }
 }
