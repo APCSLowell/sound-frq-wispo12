@@ -44,16 +44,16 @@ public void trimSilenceFromBeginning()
 {
     int leadingZeros = 0;
 
-    // precondition guarantees at least 1 non-zero element
-    // so no need to check for out of bounds
+
     while(samples[leadingZeros] == 0)
         leadingZeros++;
 
     int[] withoutLeadingZeros = new int[samples.length - leadingZeros];
 
     for(int i = leadingZeros; i < samples.length; i++)
+      {
         withoutLeadingZeros[i - leadingZeros] = samples[i];
-
+      }
     samples = withoutLeadingZeros;
 }
 }
