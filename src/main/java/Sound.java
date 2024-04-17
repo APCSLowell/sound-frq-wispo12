@@ -13,25 +13,26 @@ public class Sound
    *         Precondition: limit >= 0
    *  @return the number of values in this sound that this method changed
    */
-  public int limitAmplitude(int limit)
-  {  
-    int h=0;
- for(int i=0;i<samples.length();i++)
-   {
-if(samples[i]>limit)
+public int limitAmplitude(int limit)
 {
-  h++;
-samples[i]=limit;
-}
-     if(samples[i]<-limit)
-{
-  h++;
-samples[i]=-limit;
-}
-   }
-    return h;
-  }
+    int numChanges = 0;
 
+    for (int i = 0; i < samples.length; i++)
+    {
+        if (samples[i] > limit)
+        {
+            samples[i] = limit;
+            numChanges++;
+        }
+        else if (samples[i] < -limit)
+        {
+            samples[i] = -limit;
+            numChanges++;
+        }
+    }
+
+    return numChanges;
+}
 
 
   /** Removes all silence from the beginning of this sound.
@@ -39,25 +40,20 @@ samples[i]=-limit;
    *  Precondition: samples contains at least one nonzero value
    *  Postcondition: the length of samples reflects the removal of starting silence
    */
-  public void trimSilenceFromBeginning()
-  {
-  boolean t=true;
-  int g=0;
-   while(g<samples.length() && t==true)
-     {
-if(samples[i]==0)
+public void trimSilenceFromBeginning()
 {
-g=g+1;
-}
-else
-{
-t=false;
-     }
-  }
-for(int f=g;f<samples.length;f++)
+    int leadingZeros = 0;
 
-  {
-samples[f-g]=samples[f];
-  }
-  }
+    // precondition guarantees at least 1 non-zero element
+    // so no need to check for out of bounds
+    while(samples[leadingZeros] == 0)
+        leadingZeros++;
+
+    int[] withoutLeadingZeros = new int[samples.length - leadingZeros];
+
+    for(int i = leadingZeros; i < samples.length; i++)
+        withoutLeadingZeros[i - leadingZeros] = samples[i];
+
+    samples = withoutLeadingZeros;
+}
 }
